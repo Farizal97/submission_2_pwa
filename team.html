@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Submision.2 | football-data.org API's">
+    <link rel="stylesheet" href="assets/css/materialize.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="apple-touch-icon" href="assets/images/icon-256x256.png">
+    <link rel="shortcut icon" href="assets/images/icon-128x128.png" type="image/x-icon">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#03a300" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <nav role="navigation">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-loggo" id="logo-container">Submission 2</a>
+                <a href="./index.html" class="sidenav-trigger btn-floating btn-large waves-effect waves-light red"
+                    data-target="nav-mobile">
+                    <i class="material-icons">arrow_back</i>
+                </a>
+                <ul class="topnav right hide-on-med-and-down"></ul>
+                <ul class="sidenav" id="nav-mobile"></ul>
+            </div>
+        </nav>
+    </header>
+    <div class="row justify-center f-column align-item-center center-align">
+        <div class="col s12 m12 l12" id="main-display">
+            <div class="row pt-3 d-flex team-wraper-top">
+                <div class="col s12 m11 l5 center-align" id="image-team">
+
+                </div>
+
+                <div class="team-name justify-center f-column col s12 m11 l7 left-align">
+                    <blockquote id="team-name">
+
+                    </blockquote>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <div class="row">
+                        <div class="col s12 m12 l12 center-align">
+                            <h5>information</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <ul class="collection" id="information">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <h3>Squad List</h3>
+                </div>
+                <div class="col s12 m6 l6">
+                    <ul class="collapsible popout" id="squadLeft">
+
+                    </ul>
+                </div>
+
+                <div class="col s12 m6 l6">
+                    <ul class="collapsible popout" id="squadRight">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red" id="save">
+            <i class="large material-icons">save</i>
+        </a>
+
+        <a class="btn-floating btn-large red" id="remove">
+            <i class="large material-icons">remove_circle</i>
+        </a>
+    </div>
+
+
+    <script src="assets/js/materialize.min.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/idb.js"></script>
+    <script src="assets/js/db.js"></script>
+    <script src="assets/js/init.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const collaps = document.querySelectorAll('.collapsible');
+            M.Collapsible.init(collaps);
+
+            var urlParams = new URLSearchParams(window.location.search);
+            var isFromSaved = urlParams.get("saved");
+            var save = document.getElementById("save");
+            var remove = document.getElementById("remove");
+
+            if (isFromSaved) {
+                save.style.display = "none";
+                getSavedTeamById();
+            }
+            else {
+                remove.style.display = "none";
+                var item = displayTeam();
+            }
+
+            save.onclick = function () {
+                console.log("Tombol FAB diklik");
+
+                item.then(function (team) {
+                    addTeamFav(team);
+                })
+            }
+
+            remove.onclick = function () {
+                var idParam = urlParams.get("id");
+                deleteTeamFav(Number(idParam));
+            }
+        });
+    </script>
+</body>
+
+</html>
